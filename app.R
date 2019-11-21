@@ -55,6 +55,7 @@ home_page <- tabPanel(
   )
 )
 
+
 # this page is the detailed information about hame crimes in Seattle, 2018
 seattle_incidents_page <- tabPanel(
   "Hate Crimes in Seattle 2018",
@@ -81,12 +82,42 @@ seattle_incidents_page <- tabPanel(
   )
 )
 
+# about tech page
+tech_page <- tabPanel(
+  "About Tech",
+  titlePanel("About Tech"),
+  fluidPage(
+    p("1. The data sets were loaded using read.csv function."),
+    p("2. The following libraries were used for P2 ggplot2, shiny,
+     leaflet and dplyr."),
+    p("3. We have our app.R under the repo, and all the datasets
+     in a file called 'data'."),
+    p("4. hate_crimes_Seattle.csv file was used to look at the rate
+      of different categories of bias-motivated crimes in different
+      month in Seattle, 2018.")
+  )
+)
+
+# page about us
+us_page <- tabPanel(
+  "About Us",
+  titlePanel("About Us"),
+  fluidPage(
+    p("My name is Nyamsuren Delger and I am majoring in Psychology,
+      and my email is delgernyamsuren@gmail.com."),
+    p("My name is Hanzhang Hu and I'm also majoring in Psychology,
+      and my email is hhz511@uw.edu")
+  )
+)
+
 # creates the navigation bar, which includes all pages
 ui <- navbarPage(
   "Hate Crimes in United States",
   home_page,
   # content in sidebar
-  seattle_incidents_page
+  seattle_incidents_page,
+  tech_page,
+  us_page
 )
 
 # define server that renders texts and bar charts
@@ -108,7 +139,7 @@ server <- function(input, output) {
               "hate crimes happened in Seattle.")
       }
   })
-
+  
   # bar chart about each types of hate crimes
   output$type_bar <- renderPlot({
     # visualization: bar chart about the hate crime types for whole year
