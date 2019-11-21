@@ -48,9 +48,7 @@ home_page <- tabPanel(
       and also detailed information about hate crimes in Seattle."),
     p("This is a link to our technical report if you want to learn
       more about our project:"),
-    tags$a(href =
-             "https://github.com/HanzhangHu/
-           operation_awareness-/wiki/Technical-Report",
+    tags$a(href ="https://github.com/HanzhangHu/operation_awareness-/wiki/Technical-Report",
              "Technical Report")
   )
 )
