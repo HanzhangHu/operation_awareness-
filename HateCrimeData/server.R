@@ -1,26 +1,32 @@
-#
-# This is the server logic of a Shiny web application. You can run the 
-# application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
 # 
-#    http://shiny.rstudio.com/
-#
-
 library(shiny)
+library(leaflet)
+library(dplyr)
 
-# Define server logic required to draw a histogram
-shinyServer(function(input, output) {
-   
-  output$distPlot <- renderPlot({
-    
-    # generate bins based on input$bins from ui.R
-    x    <- faithful[, 2] 
-    bins <- seq(min(x), max(x), length.out = input$bins + 1)
-    
-    # draw the histogram with the specified number of bins
-    hist(x, breaks = bins, col = 'darkgray', border = 'white')
-    
+
+hate_crime_total_by_states <- read.csv("hate-crimes.csv", stringsAsFactors = FALSE)
+
+server <- function(input, output){
+  output$hate_crime_map <- renderLeaflet({
+    palette_fn <- colorNumeric(
+      palette = "YlGnBu",
+      domain = hate_crime_total_by_states[[input$analysis_var]]
+    )
+    leaflet(data = hate_crime_total_by_states) %>%
+      addProviderTiles("Stamen.TonerLite") %>%
+      addPolygons(
+        stroke = FALSE,
+        color = ~palette_fn(hate_crime_total_by_states[[input$analysis_var]]),
+        fillOpacity = 0.7,
+        
+      )
+    addLegend(
+      "bottomright",
+      title = "ave hate crime in 100K",
+      pal = palette_fn,
+      values = hate_crime_total_by_states[[input$analysis_var]],
+      opacity = 1
+    )
   })
   
-})
+}
